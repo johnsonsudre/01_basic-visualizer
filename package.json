@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "three": "^0.146.0"
+  },
+  "name": "basic_threejs_app",
+  "description": "A Basic Three JS App - From Nik Lever's Course",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnsonsudre/basic_threejs_app.git"
+  },
+  "author": "Johnson Sudré",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnsonsudre/basic_threejs_app/issues"
+  },
+  "homepage": "https://github.com/johnsonsudre/basic_threejs_app#readme"
+}
