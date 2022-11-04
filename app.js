@@ -37,6 +37,8 @@ class App {
     this.box = newBox();
     this.scene.add(this.box);
 
+    new OrbitControls(this.camera, this.renderer.domElement);
+
     window.addEventListener("resize", this.resize.bind(this));
   }
 
