@@ -7,13 +7,16 @@ function newBox(params) {
   return new THREE.Mesh(geometry, material);
 }
 
+function getAspectRatio(){
+  return (window.innerWidth / window.innerHeight)
+}
+
 class App {
   constructor() {
     const container = document.createElement("div");
     document.body.appendChild(container);
 
-    const aspectRatio = window.innerWidth / window.innerHeight;
-    this.camera = new THREE.PerspectiveCamera(60, aspectRatio, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(60, getAspectRatio(), 0.1, 1000);
     this.camera.position.set(0, 0, 5);
 
     this.scene = new THREE.Scene();
@@ -42,7 +45,11 @@ class App {
     window.addEventListener("resize", this.resize.bind(this));
   }
 
-  resize() {}
+  resize() {
+    this.camera.aspect = getAspectRatio();
+    this.camera.updateProjectionMatrix(); // so as not to distort the render
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
 
   render() {
     this.box.rotation.y += 0.0175;
