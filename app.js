@@ -1,9 +1,12 @@
+// asset by https://sketchfab.com/meerschaumdigital
+
 import * as THREE from "./modules/three.module.js";
 import { OrbitControls } from "./modules/OrbitControls.js";
 import { GLTFLoader } from "./modules/GLTFLoader.js";
+import { LoadingBar } from "./libs/LoadingBar.js";
 
-function newBox(params) {
-  const geometry = new THREE.BoxBufferGeometry(0.3, 0.005, 0.3);
+function newMesh(params) {
+  const geometry = new THREE.CylinderGeometry(0.3, 0.3, 0.025, 64);
   const material = new THREE.MeshStandardMaterial({ color: 0xcccccc });
   const mesh = new THREE.Mesh(geometry, material);
   return mesh;
@@ -21,10 +24,6 @@ class OrbitController{
     control.update();
     return control;
   }
-}
-
-class LoadingBar {
-  constructor() {}
 }
 
 class App {
@@ -53,10 +52,12 @@ class App {
 
     this.renderer.setAnimationLoop(this.render.bind(this));
 
-    this.box = newBox();
+    this.box = newMesh();
     this.scene.add(this.box);
-
+    this.asset = new THREE.Object3D;
+    
     this.loadingBar = new LoadingBar();
+    
     this.loadGLTF();
 
     this.control = new OrbitController(this);
@@ -70,10 +71,16 @@ class App {
       "african_figurine_game_ready__2k_pbr.glb",
       (gltf) => {
         gltf.scene.position.y = 0.025/2;
-        this.box.add(gltf.scene);
+        this.scene.add(gltf.scene);
+        this.loadingBar.visible = false;
+        this.asset = gltf.scene;
       },
-      (xhr) => {},
-      (err) => {}
+      (xhr) => {
+        this.loadingBar.progress = xhr.loaded/xhr.total;
+      },
+      (err) => {
+        console.error(err);
+      }
     );
   }
 
@@ -84,7 +91,7 @@ class App {
   }
 
   render() {
-    this.box.rotation.y += 0.00175;
+    this.asset.rotation.y += 0.00175;
     this.renderer.render(this.scene, this.camera);
   }
 }
