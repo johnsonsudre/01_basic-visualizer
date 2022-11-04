@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head></head>
-    <body>
-        <script type="module">
-            import { App } from "./app.js";
-            document.addEventListener("DOMContentLoaded", function(){
-                const app = new App();
-                window.app = app;
-            });
-        </script>
-    </body>
+  <head></head>
+  <style>
+    html,
+    body,
+    div {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+  </style>
+  <body>
+    <script type="module">
+      import { App } from "./app.js";
+      document.addEventListener("DOMContentLoaded", function () {
+        const app = new App();
+        window.app = app;
+      });
+    </script>
+  </body>
 </html>
