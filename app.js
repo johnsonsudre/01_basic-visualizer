@@ -3,7 +3,7 @@
 import * as THREE from "./modules/three.module.js";
 import { OrbitControls } from "./modules/OrbitControls.js";
 import { GLTFLoader } from "./modules/GLTFLoader.js";
-import { RGBELoader } from "./modules/RGBELoader.js";
+// import { RGBELoader } from "./modules/RGBELoader.js";
 import { LoadingBar } from "./libs/LoadingBar.js";
 
 function newMesh(params) {
@@ -34,13 +34,13 @@ class App {
     document.body.appendChild(container);
 
     this.camera = new THREE.PerspectiveCamera(60, getAspectRatio(), 0.02, 10);
-    this.camera.position.set(0, 0.2, 0.65);
+    this.camera.position.set(0, 0.25, 1.65);
 
     this.scene = new THREE.Scene();
     this.scene.add(this.camera);
-    this.scene.background = new THREE.Color(0xbbbbbb);
+    this.scene.background = new THREE.Color(0x100000);
 
-    this.ambientLight = new THREE.HemisphereLight(0xddeeff, 0x333300, 0.5);
+    this.ambientLight = new THREE.HemisphereLight(0xddeeff, 0x333300, 1);
     this.scene.add(this.ambientLight);
 
     this.light = new THREE.DirectionalLight(0xffffff, 1);
@@ -66,8 +66,8 @@ class App {
 
     this.renderer.setAnimationLoop(this.render.bind(this));
 
-    this.box = newMesh();
-    this.scene.add(this.box);
+    // this.box = newMesh();
+    // this.scene.add(this.box);
     this.asset = new THREE.Object3D();
 
     this.loadingBar = new LoadingBar();
@@ -101,14 +101,14 @@ class App {
   loadGLTF() {
     const loader = new GLTFLoader().setPath("./assets/models/");
     loader.load(
-      "african_figurine_game_ready__2k_pbr.glb",
+      "asset.glb",
       (gltf) => {
-        gltf.scene.position.y = 0.025 / 2;
         this.scene.add(gltf.scene);
         this.loadingBar.visible = false;
         gltf.scene.traverse((obj) => {
           if (obj.isMesh) {
             obj.castShadow = true;
+            obj.receiveShadow = true;
           }
         });
         const bbox = new THREE.Box3().setFromObject(this.scene);
