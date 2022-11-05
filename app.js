@@ -62,7 +62,7 @@ class App {
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
     container.appendChild(this.renderer.domElement);
-    this.setEnvironment();
+    // this.setEnvironment();
 
     this.renderer.setAnimationLoop(this.render.bind(this));
 
@@ -79,24 +79,24 @@ class App {
     window.addEventListener("resize", this.resize.bind(this));
   }
 
-  setEnvironment() {
-    const loader = new RGBELoader().setDataType(THREE.HalfFloatType);
-    const pmremGenerator = new THREE.PMREMGenerator(this.renderer);
-    pmremGenerator.compileEquirectangularShader();
-    const self = this;
-    loader.load(
-      "./assets/textures/sandsloot_1k.hdr",
-      (texture) => {
-        const envMap = pmremGenerator.fromEquirectangular(texture);
-        self.scene.environment = envMap;
-        pmremGenerator.dispose();
-      },
-      (xhr) => {},
-      (err) => {
-        console.err(err);
-      }
-    );
-  }
+  // setEnvironment() {
+  //   const loader = new RGBELoader().setDataType(THREE.HalfFloatType);
+  //   const pmremGenerator = new THREE.PMREMGenerator(this.renderer);
+  //   pmremGenerator.compileEquirectangularShader();
+  //   const self = this;
+  //   loader.load(
+  //     "./assets/textures/sandsloot_1k.hdr",
+  //     (texture) => {
+  //       const envMap = pmremGenerator.fromEquirectangular(texture);
+  //       self.scene.environment = envMap;
+  //       pmremGenerator.dispose();
+  //     },
+  //     (xhr) => {},
+  //     (err) => {
+  //       console.err(err);
+  //     }
+  //   );
+  // }
 
   loadGLTF() {
     const loader = new GLTFLoader().setPath("./assets/models/");
@@ -111,6 +111,8 @@ class App {
             obj.castShadow = true;
           }
         });
+        const bbox = new THREE.Box3().setFromObject(this.scene);
+        console.log(bbox);
         this.asset = gltf.scene;
       },
       (xhr) => {
