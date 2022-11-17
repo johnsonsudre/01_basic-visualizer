@@ -2,6 +2,8 @@
 # Akwaba Ashanti Fertility viewer
 A simple 3d viewer for study.
 
+<img src="./screenshot.png" alt="Akwaba Ashanti Fertility" width="75%">
+
 ## Getting Started
 
 ### Dependencies

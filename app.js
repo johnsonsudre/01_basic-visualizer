@@ -6,14 +6,6 @@ import { GLTFLoader } from "./modules/GLTFLoader.js";
 // import { RGBELoader } from "./modules/RGBELoader.js";
 import { LoadingBar } from "./libs/LoadingBar.js";
 
-function newMesh(params) {
-  const geometry = new THREE.CylinderGeometry(0.3, 0.3, 0.025, 64);
-  const material = new THREE.MeshStandardMaterial({ color: 0xcccccc });
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.receiveShadow = true;
-  return mesh;
-}
-
 function getAspectRatio() {
   return window.innerWidth / window.innerHeight;
 }
@@ -47,7 +39,6 @@ class App {
     this.light.position.set(0.3, 0.6, 0.3);
     this.light.target.position.set(0, 0, 0);
     this.light.castShadow = true;
-    console.log(this.light);
     this.light.shadowCameraVisible = true; // only for debugging
     this.light.shadow.mapSize.width = 1024; // default
     this.light.shadow.mapSize.height = 1024; // default
@@ -100,7 +91,7 @@ class App {
   // }
 
   loadGLTF() {
-    const loader = new GLTFLoader().setPath("./assets/models/");
+    const loader = new GLTFLoader().setPath("/assets/models/");
     loader.load(
       "asset.glb",
       (gltf) => {
