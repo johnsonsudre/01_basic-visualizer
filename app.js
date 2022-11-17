@@ -1,5 +1,5 @@
 // asset by https://sketchfab.com/meerschaumdigital
-
+import "./style.css"
 import * as THREE from "./modules/three.module.js";
 import { OrbitControls } from "./modules/OrbitControls.js";
 import { GLTFLoader } from "./modules/GLTFLoader.js";
@@ -40,16 +40,17 @@ class App {
     this.scene.add(this.camera);
     this.scene.background = new THREE.Color(0x100000);
 
-    this.ambientLight = new THREE.HemisphereLight(0xddeeff, 0x333300, 1);
+    this.ambientLight = new THREE.HemisphereLight(0xddeeff, 0x333300, 0.1);
     this.scene.add(this.ambientLight);
 
     this.light = new THREE.DirectionalLight(0xffffff, 1);
     this.light.position.set(0.3, 0.6, 0.3);
     this.light.target.position.set(0, 0, 0);
     this.light.castShadow = true;
+    console.log(this.light);
     this.light.shadowCameraVisible = true; // only for debugging
-    this.light.shadow.mapSize.width = 512*4; // default
-    this.light.shadow.mapSize.height = 512*4; // default
+    this.light.shadow.mapSize.width = 1024; // default
+    this.light.shadow.mapSize.height = 1024; // default
 
     this.scene.add(this.light);
     this.scene.add(this.light.target);
@@ -107,12 +108,11 @@ class App {
         this.loadingBar.visible = false;
         gltf.scene.traverse((obj) => {
           if (obj.isMesh) {
-            obj.castShadow = true;
-            obj.receiveShadow = true;
+            if (obj.name === "akwaba_ashanti_fertility") obj.castShadow = true;
+            if (obj.name === "rock") obj.receiveShadow = true;
           }
         });
         const bbox = new THREE.Box3().setFromObject(this.scene);
-        console.log(bbox);
         this.asset = gltf.scene;
       },
       (xhr) => {
